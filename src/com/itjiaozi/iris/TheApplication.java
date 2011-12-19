@@ -1,5 +1,7 @@
 package com.itjiaozi.iris;
 
+import com.itjiaozi.iris.db.EADbHelper;
+
 import android.app.Application;
 
 public class TheApplication extends Application {
@@ -15,6 +17,8 @@ public class TheApplication extends Application {
 		super.onCreate();
 		Thread.setDefaultUncaughtExceptionHandler(appUncaughtExceptionHandler);
 		INSTANCE = this;
+		
+		EADbHelper.getInstance();
 	}
 
 	java.lang.Thread.UncaughtExceptionHandler appUncaughtExceptionHandler = new java.lang.Thread.UncaughtExceptionHandler() {
