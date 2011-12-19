@@ -1,64 +1,44 @@
 package com.itjiaozi.iris;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
-import com.iflytek.speech.RecognizerResult;
-import com.iflytek.speech.SpeechConfig.RATE;
-import com.iflytek.speech.SpeechError;
 import com.iflytek.ui.RecognizerDialog;
-import com.iflytek.ui.RecognizerDialogListener;
-import com.itjiaozi.iris.R;
 
-public class MainActivity extends Activity implements RecognizerDialogListener {
-	public static final int DIALOG_ISR = 0;
-	private RecognizerDialog iatDialog;
+public class MainActivity extends BaseActivity {
+    public static final int DIALOG_ISR = 0;
+    private RecognizerDialog iatDialog;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+    }
 
-	public void onClick(View v) {
-		showDialog(DIALOG_ISR);
-	}
+    public void onClick(View v) {
+        startRecognition();
+    }
 
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case DIALOG_ISR: {
-			if (null == iatDialog) {
-				iatDialog = new RecognizerDialog(this, "appid=4ec0b0e9");
-				iatDialog.setListener(this);
-			}
-			iatDialog.setEngine("sms", null, null);
-			iatDialog.setSampleRate(RATE.rate16k);
-			return iatDialog;
-		}
-		default:
-			break;
-		}
-		return null;
-	}
+    @Override
+    public void onRecognition(String str) {
+        // TODO Auto-generated method stub
+        super.onRecognition(str);
+    }
 
-	@Override
-	public void onEnd(SpeechError arg0) {
-		// TODO Auto-generated method stub
+    private static class MyAdapter extends ArrayAdapter<String> {
 
-	}
+        public MyAdapter(Context context) {
+            super(context, -1);
+        }
 
-	@Override
-	public void onResults(ArrayList<RecognizerResult> results, boolean isLast) {
-		if (isLast && null != results && results.size() > 0) {
-			RecognizerResult rr = results.get(0);
-			Toast.makeText(this, rr.confidence + ", " + rr.semanteme + ", " + rr.text, 1).show();
-		}
-	}
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return super.getView(position, convertView, parent);
+        }
+
+    }
 }
