@@ -10,6 +10,7 @@ import com.itjiaozi.iris.about.TheFiles;
 import com.itjiaozi.iris.about.TheSongs;
 import com.itjiaozi.iris.talk.ITalk;
 import com.itjiaozi.iris.talk.ITalkCallback;
+import com.itjiaozi.iris.util.Pinyin;
 
 public class AiManager implements ITalk {
     private List<ITalk> talks = new ArrayList<ITalk>();
@@ -50,7 +51,8 @@ public class AiManager implements ITalk {
 
     private void checkAbout(String str) {
         for (ITheAbout a : abouts) {
-            a.filter(str);
+            String pinyin = Pinyin.getPingYin(str);
+            a.filter(str, pinyin);
         }
     }
 }
