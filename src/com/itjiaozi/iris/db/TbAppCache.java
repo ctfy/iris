@@ -24,7 +24,7 @@ public class TbAppCache extends EABaseModel {
     }
 
     @EADBField(mode = EADBFieldMode.Key)
-    public int _ID;
+    public long _ID;
     @EADBField
     public int BeUsedCount;
     @EADBField
@@ -49,7 +49,7 @@ public class TbAppCache extends EABaseModel {
 
         String sql = String.format("SELECT * FROM %s WHERE %s=?", TB_NAME, Columns.PackageName);
         long count = getCount(sql, new String[] { packageName });
-        if (count > 0) {
+        if (0 == count) {
             values.put(Columns.PackageName, packageName);
             id = EADbHelper.getInstance().insert(TB_NAME, null, values);
         } else {

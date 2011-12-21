@@ -27,7 +27,7 @@ public class TheApps extends BaseTheAbout {
 
             String name = packageInfo.applicationInfo.loadLabel(TheApplication.getInstance().getPackageManager()).toString();
             String packageName = packageInfo.packageName;
-            String versionName = packageInfo.packageName;
+            String versionName = packageInfo.versionName;
             int versionCode = packageInfo.versionCode;
             // TODO 存储图标路径
             Drawable drawable = packageInfo.applicationInfo.loadIcon(TheApplication.getInstance().getPackageManager());

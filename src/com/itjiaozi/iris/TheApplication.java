@@ -26,7 +26,7 @@ public class TheApplication extends Application {
 			try {
 				java.io.StringWriter w = new java.io.StringWriter();
 				java.io.PrintWriter pw = new java.io.PrintWriter(w);
-				ex.printStackTrace();
+				new Throwable(ex).printStackTrace();
 				ex.printStackTrace(pw);
 				java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				java.io.FileWriter f = new java.io.FileWriter(new java.io.File("sdcard/bug.txt"), true);

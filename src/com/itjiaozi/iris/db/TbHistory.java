@@ -14,7 +14,7 @@ public class TbHistory extends EABaseModel {
     public static final String TB_NAME = TbHistory.class.getSimpleName();
 
     public static class Columns {
-        public static final String _ID = "_ID";
+        public static final String _id = "_id";
         public static final String Content = "Content";
         public static final String Type = "Type";
         public static final String Time = "Time";
@@ -23,7 +23,7 @@ public class TbHistory extends EABaseModel {
     }
 
     @EADBField(mode = EADBFieldMode.Key)
-    public long _ID;
+    public long _id;
     @EADBField
     public String Content;
     @EADBField

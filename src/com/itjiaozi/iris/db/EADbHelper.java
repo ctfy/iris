@@ -16,7 +16,7 @@ public class EADbHelper extends BaseEASQLiteOpenHelper {
         return mInstance;
     }
     
-    public static final String DB_NAME = "ea2.db";
+    public static final String DB_NAME = "ea6.db";
     public static final int DB_VERSION = 2;
     private EADbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -26,12 +26,14 @@ public class EADbHelper extends BaseEASQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         super.onCreate(db);
         db.execSQL(new TbHistory().createTableSql());
+        db.execSQL(new TbAppCache().createTableSql());
     }
     
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onUpgrade(db, oldVersion, newVersion);
         db.execSQL(new TbHistory().dropTableSql());
+        db.execSQL(new TbAppCache().dropTableSql());
         onCreate(db);
     }
 }
