@@ -17,7 +17,7 @@ public class EADbHelper extends BaseEASQLiteOpenHelper {
     }
     
     public static final String DB_NAME = "ea6.db";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
     private EADbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }

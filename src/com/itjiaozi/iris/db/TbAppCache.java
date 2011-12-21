@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.itjiaozi.iris.db.easyandroid.EABaseModel;
 import com.itjiaozi.iris.db.easyandroid.EADBField;
 import com.itjiaozi.iris.db.easyandroid.EADBField.EADBFieldMode;
+import com.itjiaozi.iris.util.Pinyin;
 import com.itjiaozi.iris.util.TheObservable;
 
 public class TbAppCache extends EABaseModel {
@@ -17,6 +18,7 @@ public class TbAppCache extends EABaseModel {
         public static final String _ID = "_ID";
         public static final String BeUsedCount = "BeUsedCount";
         public static final String Name = "Name";
+        public static final String PinYin= "PinYin";
         public static final String PackageName = "PackageName";
         public static final String VersionName = "VersionName";
         public static final String VersionCode = "VersionCode";
@@ -29,6 +31,8 @@ public class TbAppCache extends EABaseModel {
     public int BeUsedCount;
     @EADBField
     public String Name;
+    @EADBField
+    public String PinYin;
     @EADBField
     public String PackageName;
     @EADBField
@@ -43,6 +47,7 @@ public class TbAppCache extends EABaseModel {
         ContentValues values = new ContentValues();
         values.put(Columns.BeUsedCount, 0);
         values.put(Columns.Name, name);
+        values.put(Columns.PinYin, Pinyin.getPingYin(name));
         values.put(Columns.VersionName, versionName);
         values.put(Columns.VersionCode, versionCode);
         values.put(Columns.IconPath, iconPath);
