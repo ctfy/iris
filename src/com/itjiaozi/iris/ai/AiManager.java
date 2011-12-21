@@ -8,6 +8,8 @@ import com.itjiaozi.iris.about.TheApps;
 import com.itjiaozi.iris.about.TheContacts;
 import com.itjiaozi.iris.about.TheFiles;
 import com.itjiaozi.iris.about.TheSongs;
+import com.itjiaozi.iris.cmd.CmdManager;
+import com.itjiaozi.iris.cmd.CmdManager.CmdIntent;
 import com.itjiaozi.iris.talk.ITalk;
 import com.itjiaozi.iris.talk.ITalkCallback;
 import com.itjiaozi.iris.util.Pinyin;
@@ -15,6 +17,7 @@ import com.itjiaozi.iris.util.Pinyin;
 public class AiManager implements ITalk {
     private List<ITalk> talks = new ArrayList<ITalk>();
     private List<ITheAbout> abouts = new ArrayList<ITheAbout>();
+    private ITalk iTalk;
 
     public AiManager() {
         init();
@@ -42,11 +45,9 @@ public class AiManager implements ITalk {
 
     @Override
     public void say(String str, ITalkCallback iTalkCallback) {
-        for (ITalk t : talks) {
-            t.say(str, iTalkCallback);
-        }
-        
         checkAbout(str);
+
+        CmdIntent cmdIntent = CmdManager.getInstance().searchCmdIntent(str);
     }
 
     private void checkAbout(String str) {
