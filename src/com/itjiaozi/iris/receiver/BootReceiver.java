@@ -8,6 +8,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.itjiaozi.iris.MainActivity;
 import com.itjiaozi.iris.TheApplication;
+import com.itjiaozi.iris.about.TheApps;
 import com.itjiaozi.iris.util.AppLog;
 
 public class BootReceiver extends BroadcastReceiver {
@@ -28,6 +29,7 @@ public class BootReceiver extends BroadcastReceiver {
             String packageName = intent.getDataString().substring(8);
             try {
                 PackageInfo pi = TheApplication.getInstance().getPackageManager().getPackageInfo(packageName, 0);
+                TheApps.updateAppInfo(packageName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -35,6 +37,7 @@ public class BootReceiver extends BroadcastReceiver {
         // 接收广播：设备上删除了一个应用程序包。
         if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
             String packageName = intent.getDataString().substring(8);
+            TheApps.deletePackage(packageName);
         }
     }
 }

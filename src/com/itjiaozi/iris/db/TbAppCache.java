@@ -9,6 +9,7 @@ import android.database.Cursor;
 import com.itjiaozi.iris.db.easyandroid.EABaseModel;
 import com.itjiaozi.iris.db.easyandroid.EADBField;
 import com.itjiaozi.iris.db.easyandroid.EADBField.EADBFieldMode;
+import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.Pinyin;
 import com.itjiaozi.iris.util.TheObservable;
 
@@ -16,6 +17,8 @@ public class TbAppCache extends EABaseModel {
 	public static TheObservable onChanged = new TheObservable();
 
 	public static final String TB_NAME = TbAppCache.class.getSimpleName();
+
+    private static final String TAG = TbAppCache.class.getSimpleName();
 
 	public static class Columns {
 		public static final String _ID = "_ID";
@@ -63,6 +66,11 @@ public class TbAppCache extends EABaseModel {
 		} else {
 			id = EADbHelper.getInstance().update(TB_NAME, values, Columns.PackageName + "=?", new String[] { packageName });
 		}
+		if (id > -1) {
+		    AppLog.d(TAG, "向库中添加程序成功: name" + name + ", package:" + packageName);
+		} else {
+            AppLog.e(TAG, "向库中添加程序失败: name" + name + ", package:" + packageName);
+		}
 		return id;
 	}
 
@@ -105,4 +113,14 @@ public class TbAppCache extends EABaseModel {
 		}
 		return result;
 	}
+
+    public static int deletePackage(String packageName) {
+        int len = EADbHelper.getInstance().delete(TB_NAME, Columns.PackageName + "=?", new String[]{packageName});
+        if (0 == len) {
+            AppLog.e(TAG, "删除成失败, 从数据库中清除包:" + packageName);
+        } else {
+            AppLog.d(TAG, "删除成功, 从数据库中清除包:" + packageName);
+        }
+        return len;
+    }
 }

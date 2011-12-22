@@ -42,6 +42,7 @@ public class TheApps extends BaseTheAbout {
 
             @Override
             protected Object doInBackground(Object... params) {
+                AppLog.d(TAG, hasUpdateAppInfo ? "程序列表已经同步,跳过" : "程序列表未同步过");
                 if (!hasUpdateAppInfo) {
                     List<PackageInfo> packages = TheApplication.getInstance().getPackageManager().getInstalledPackages(0);
                     for (int i = 0, len = packages.size(); i < len; i++) {
@@ -86,5 +87,9 @@ public class TheApps extends BaseTheAbout {
 
     public static List<TbAppCache> query(String str) {
         return TbAppCache.queryLikeAppByName(str);
+    }
+
+    public static void deletePackage(String packageName) {
+        TbAppCache.deletePackage(packageName);
     }
 }

@@ -9,56 +9,56 @@ import android.util.Log;
 public class AppLog implements Runnable {
 
     public static final boolean DEBUG = true;
-    public static final boolean APP_TAG = true;
+    public static final boolean ENABLE_APP_TAG = true;
 
     public static final String LOG_FILE_PATH = "/mnt/sdcard/debug_iris.txt";
     static java.io.FileWriter f;
-    public static final String TAG = "lenovo_lv";
+    public static final String APP_TAG = AppLog.class.getSimpleName();
 
     public static void v(String TAG, String msg) {
         Log.v(TAG, msg);
-        if (APP_TAG) {
-            Log.v("LvAppLog", TAG + ":" + msg);
+        if (ENABLE_APP_TAG) {
+            Log.v(APP_TAG, TAG + ":" + msg);
         }
         write2file(msg);
     }
 
     public static void e(String TAG, String msg, Throwable t) {
         Log.e(TAG, msg, t);
-        if (APP_TAG) {
-            Log.e("LvAppLog", TAG + ":" + msg, t);
+        if (ENABLE_APP_TAG) {
+            Log.e(APP_TAG, TAG + ":" + msg, t);
         }
         write2file(msg);
     }
 
     public static void w(String TAG, String msg) {
         Log.w(TAG, msg);
-        if (APP_TAG) {
-            Log.w("LvAppLog", TAG + ":" + msg);
+        if (ENABLE_APP_TAG) {
+            Log.w(APP_TAG, TAG + ":" + msg);
         }
         write2file(msg);
     }
 
     public static void d(String TAG, String msg) {
         Log.d(TAG, msg);
-        if (APP_TAG) {
-            Log.d("LvAppLog", TAG + ":" + msg);
+        if (ENABLE_APP_TAG) {
+            Log.d(APP_TAG, TAG + ":" + msg);
         }
         write2file(msg);
     }
 
     public static void e(String TAG, String msg) {
         Log.e(TAG, msg);
-        if (APP_TAG) {
-            Log.e("LvAppLog", TAG + ":" + msg);
+        if (ENABLE_APP_TAG) {
+            Log.e(APP_TAG, TAG + ":" + msg);
         }
         write2file(msg);
     }
 
     public static void i(String TAG, String msg) {
         Log.i(TAG, msg);
-        if (APP_TAG) {
-            Log.i("LvAppLog", TAG + ":" + msg);
+        if (ENABLE_APP_TAG) {
+            Log.i(APP_TAG, TAG + ":" + msg);
         }
         write2file(msg);
     }
@@ -106,19 +106,19 @@ public class AppLog implements Runnable {
     }
 
     public static void v(String msg) {
-        v(TAG, msg);
+        v(APP_TAG, msg);
     }
 
     public static void d(String msg) {
-        d(TAG, msg);
+        d(APP_TAG, msg);
     }
 
     public static void e(String msg) {
-        e(TAG, msg);
+        e(APP_TAG, msg);
     }
 
     public static void i(String msg) {
-        i(TAG, msg);
+        i(APP_TAG, msg);
     }
 
 }
