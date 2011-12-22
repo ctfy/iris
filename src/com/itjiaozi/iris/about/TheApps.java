@@ -35,4 +35,8 @@ public class TheApps extends BaseTheAbout {
             TbAppCache.insertOrUpdate(name, packageName, versionName, versionCode, "");
         }
     }
+
+    public static List<TbAppCache> query(String str) {
+        return null;
+    }
 }

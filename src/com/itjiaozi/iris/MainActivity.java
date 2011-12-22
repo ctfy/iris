@@ -20,13 +20,11 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
     private RecognizerDialog iatDialog;
 
     private SimpleCursorAdapter mSimpleCursorAdapter;
-    private AiManager mAiManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        mAiManager = new AiManager();
         Cursor c = TbHistory.query();
         mSimpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, new String[] { TbHistory.Columns.Content }, new int[] { android.R.id.text1 }) {
             @Override
@@ -91,7 +89,7 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
         super.onRecognition(str);
         TbHistory.insert(str, ChatType.TYPE_HUMAN);
 
-        mAiManager.getAi().say(str, this);
+        AiManager.getInstance().say(str, this);
     }
 
     @Override
