@@ -21,7 +21,7 @@ public class TheApps extends BaseTheAbout {
     protected static final String TAG = TheApps.class.getSimpleName();
 
     public TheApps() {
-        flushApps();
+        syncApps();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class TheApps extends BaseTheAbout {
         super.filter(str, pinyin);
     }
 
-    private void flushApps() {
+    private void syncApps() {
         AsyncTask<Object, String, Object> task = new AsyncTask<Object, String, Object>() {
             public final static String HAS_UPDATE_APP_INFO = "HAS_UPDATE_APP_INFO ";
             boolean hasUpdateAppInfo = false;

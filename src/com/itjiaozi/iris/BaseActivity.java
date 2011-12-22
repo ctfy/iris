@@ -43,12 +43,20 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 
     }
 
+    private StringBuilder tmp = new StringBuilder();
+
     @Override
     public void onResults(ArrayList<RecognizerResult> results, boolean isLast) {
-        if (isLast && null != results && results.size() > 0) {
+        if (null != results && results.size() > 0) {
             RecognizerResult rr = results.get(0);
-            Toast.makeText(this, rr.confidence + ", " + rr.semanteme + ", " + rr.text, 1).show();
-            onRecognition(rr.text);
+            tmp.append(rr.text);
+            if (isLast) {
+                String callbackStr = tmp.toString();
+                callbackStr = callbackStr.replace("。", "");
+                Toast.makeText(this, callbackStr, 1).show();
+                onRecognition(callbackStr);
+                tmp = new StringBuilder();
+            }
         }
     }
 }

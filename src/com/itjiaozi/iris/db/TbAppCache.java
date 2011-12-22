@@ -92,11 +92,12 @@ public class TbAppCache extends EABaseModel {
 
 	public static List<TbAppCache> queryLikeAppByName(String name) {
 		String appNamePinyin = Pinyin.getPingYin(name);
+		AppLog.d(TAG, String.format("查找应用:%s, \t拼音:%s", name, appNamePinyin));
 		List<TbAppCache> result = new ArrayList<TbAppCache>();
 		Cursor c = null;
 		try {
-			c = EADbHelper.getInstance().query(TB_NAME, null, Columns.PinYin + " like ?", new String[] { appNamePinyin }, null, null, Columns.BeUsedCount + " DESC");
-			for (c.moveToFirst(); c.moveToNext();) {
+			c = EADbHelper.getInstance().query(TB_NAME, null, Columns.PinYin + "=?", new String[] { appNamePinyin }, null, null, Columns.BeUsedCount + " DESC");
+			for (c.moveToFirst();c.isLast();c.moveToNext()) {
 				TbAppCache tmp = new TbAppCache();
 				tmp._ID = c.getLong(c.getColumnIndex(Columns._ID));
 				tmp.BeUsedCount = c.getInt(c.getColumnIndex(Columns.BeUsedCount));
@@ -110,6 +111,9 @@ public class TbAppCache extends EABaseModel {
 			if (null != c) {
 				c.close();
 			}
+		}
+		if (result.size() < 1) {
+		    AppLog.w(TAG, String.format("未找到应用:%s, \t拼音:%s", name, appNamePinyin));
 		}
 		return result;
 	}
