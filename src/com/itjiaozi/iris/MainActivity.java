@@ -1,5 +1,6 @@
 package com.itjiaozi.iris;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +14,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.iflytek.ui.RecognizerDialog;
+import com.itjiaozi.iris.about.TheApps;
 import com.itjiaozi.iris.ai.AiManager;
 import com.itjiaozi.iris.db.TbHistory;
 import com.itjiaozi.iris.talk.ITalkCallback;
@@ -83,7 +85,14 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
         int id = v.getId();
         switch (id) {
         case R.id.btn_speak:
-            startRecognition();
+            // startRecognition();
+            List<String> list = TheApps.getAllAppName();
+            for (int i = 0, len = list.size(); i < len; i++) {
+                list.add("打开" + list.get(i));
+                list.add("启动" + list.get(i));
+            }
+            String[] ss = list.toArray(new String[1]);
+            startUploadAppThenStartRecognition(EGrammarType.App, ss);
             break;
         case R.id.btn_select_cmd:
             startActivityForResult(new Intent(this, TestMainActivity.class), 2);

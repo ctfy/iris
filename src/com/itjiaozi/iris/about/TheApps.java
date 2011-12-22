@@ -92,4 +92,8 @@ public class TheApps extends BaseTheAbout {
     public static void deletePackage(String packageName) {
         TbAppCache.deletePackage(packageName);
     }
+
+    public static List<String> getAllAppName() {
+        return TbAppCache.queryAppNames();
+    }
 }
