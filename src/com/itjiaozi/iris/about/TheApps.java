@@ -6,12 +6,13 @@ import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 
 import com.itjiaozi.iris.TheApplication;
+import com.itjiaozi.iris.db.EADbHelper;
 import com.itjiaozi.iris.db.TbAppCache;
 
 public class TheApps extends BaseTheAbout {
 
     public TheApps() {
-        flushApps();
+//        flushApps();
     }
 
     @Override
@@ -37,6 +38,6 @@ public class TheApps extends BaseTheAbout {
     }
 
     public static List<TbAppCache> query(String str) {
-        return null;
+        return TbAppCache.queryLikeAppByName(str);
     }
 }
