@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.itjiaozi.iris.cmd.EUserCommand;
 import com.itjiaozi.iris.talk.BaseTalk;
+import com.itjiaozi.iris.util.SPUtil;
 
 public class BaseAi extends BaseTalk implements IAiCallback {
 
@@ -26,9 +27,32 @@ public class BaseAi extends BaseTalk implements IAiCallback {
 	}
 
 	@Override
-	public String[] getKeysForXunFei() {
+	public String[] getXunFeiKeys() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getXunFeiGrammarName() {
+		return "grammar_name_" + this.getClass().getSimpleName();
+	}
+
+	@Override
+	public String getXunFeiGrammarID() {
+		String grammarName = getXunFeiGrammarName();
+		return SPUtil.getString(grammarName, null);
+	}
+
+	@Override
+	public boolean needUpload() {
+		// 由之类各自实现
+		return false;
+	}
+
+	@Override
+	public void storeGrammarID(String grammarID) {
+		String grammarName = getXunFeiGrammarName();
+		SPUtil.put(grammarName, grammarID);
 	}
 
 }

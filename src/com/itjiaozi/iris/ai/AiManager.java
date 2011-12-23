@@ -1,7 +1,9 @@
 package com.itjiaozi.iris.ai;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jregex.Matcher;
 import android.content.Intent;
@@ -28,6 +30,7 @@ public class AiManager implements ITalk {
 	private List<ITheAbout> abouts = new ArrayList<ITheAbout>();
 	private IAiCallback aiCallback;
 	private List<CmdModel> allCmdModels = new ArrayList<CmdModel>();
+	private Map<EAiType, IAiCallback> allCallbacks = new HashMap<EAiType, IAiCallback>();
 
 	private static AiManager instance;
 
@@ -40,7 +43,7 @@ public class AiManager implements ITalk {
 
 	private AiManager() {
 	}
-	
+
 	public synchronized void init() {
 		talks.add(new AiApp());
 		talks.add(new AiCall());
@@ -61,7 +64,7 @@ public class AiManager implements ITalk {
 		CmdModel cm = new CmdModel(iAiCallback, pattern, fields);
 		allCmdModels.add(cm);
 	}
-	
+
 	private ITalkCallback mITalkCallback;
 
 	@Override
@@ -71,14 +74,14 @@ public class AiManager implements ITalk {
 		Intent intent = new Intent(str);
 		if (null == aiCallback) {
 			mERecognitionModel = ERecognitionModel.Normal;
-			
+
 			for (CmdModel cm : allCmdModels) {
 				Matcher m = cm.getPattern().matcher(str);
 				if (m.find()) {
 					for (String fieldName : cm.fields) {
 						intent.putExtra(fieldName, m.group(fieldName));
 					}
-					
+
 					// 先回调再赋值
 					cm.getAiCallback().callback(intent);
 					aiCallback = cm.getAiCallback();
@@ -152,6 +155,10 @@ public class AiManager implements ITalk {
 
 	public IAiCallback lock() {
 		return aiCallback;
+	}
+
+	public IAiCallback getAiCallback(EAiType eAiType) {
+		return null;
 	}
 
 }

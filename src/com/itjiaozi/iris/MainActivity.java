@@ -17,6 +17,7 @@ import com.iflytek.ui.RecognizerDialog;
 import com.itjiaozi.iris.about.EAboutType;
 import com.itjiaozi.iris.about.TheApps;
 import com.itjiaozi.iris.ai.AiManager;
+import com.itjiaozi.iris.ai.EAiType;
 import com.itjiaozi.iris.db.TbHistory;
 import com.itjiaozi.iris.talk.ITalkCallback;
 
@@ -85,7 +86,7 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
 		int id = v.getId();
 		switch (id) {
 		case R.id.btn_speak:
-			startRecognition(EAboutType.All);
+			startRecognition(EAiType.Default);
 			break;
 		case R.id.btn_select_cmd:
 			startActivityForResult(new Intent(this, TestMainActivity.class), 2);

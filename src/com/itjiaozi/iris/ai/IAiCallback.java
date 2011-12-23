@@ -11,5 +11,13 @@ public interface IAiCallback {
 
 	void doUserCommand(EUserCommand cmd);
 
-	String[] getKeysForXunFei();
+	String[] getXunFeiKeys();
+
+	String getXunFeiGrammarName();
+
+	String getXunFeiGrammarID();
+
+	boolean needUpload();
+
+	void storeGrammarID(String grammarID);
 }

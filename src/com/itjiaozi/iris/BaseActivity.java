@@ -15,6 +15,9 @@ import com.iflytek.ui.RecognizerDialogListener;
 import com.iflytek.ui.UploadDialog;
 import com.iflytek.ui.UploadDialogListener;
 import com.itjiaozi.iris.about.EAboutType;
+import com.itjiaozi.iris.ai.AiManager;
+import com.itjiaozi.iris.ai.EAiType;
+import com.itjiaozi.iris.ai.IAiCallback;
 import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.ToastUtil;
 
@@ -42,17 +45,22 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 		uploadDialog = new UploadDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
 	}
 
-	public void startRecognition(EAboutType eAboutType) {
-		if (eAboutType.needUpload()) {
-			startUpload(eAboutType);
+	public void startRecognition(EAiType eAiType) {
+		IAiCallback iAiCallback = AiManager.getInstance().getAiCallback(eAiType);
+		startRecognition(iAiCallback);
+	}
+
+	public void startRecognition(IAiCallback iAiCallback) {
+		if (iAiCallback.needUpload()) {
+			startUpload(iAiCallback);
 		} else {
-			iatDialog.setEngine(null, null, eAboutType.getGrammarID());
+			iatDialog.setEngine(null, null, iAiCallback.getXunFeiGrammarID());
 			iatDialog.show();
 		}
 	}
 
-	private void startUpload(final EAboutType eAboutType) {
-		String[] keys = eAboutType.getKeys();
+	private void startUpload(final IAiCallback iAiCallback) {
+		String[] keys = iAiCallback.getXunFeiKeys();
 		StringBuilder sb = new StringBuilder();
 		if (null != keys) {
 			for (String t : keys) {
@@ -61,7 +69,7 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 		}
 		sb.delete(sb.length() - 1, sb.length());
 		try {
-			uploadDialog.setContent(sb.toString().getBytes("UTF-8"), "dtt=keylist", eAboutType.getGrammarName());
+			uploadDialog.setContent(sb.toString().getBytes("UTF-8"), "dtt=keylist", iAiCallback.getXunFeiGrammarName());
 			uploadDialog.setListener(new UploadDialogListener() {
 
 				@Override
@@ -71,8 +79,8 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 
 				@Override
 				public void onDataUploaded(String contentID, String extendID) {
-					eAboutType.storeGrammarID(extendID);
-					startRecognition(eAboutType);
+					iAiCallback.storeGrammarID(extendID);
+					startRecognition(iAiCallback);
 				}
 			});
 			uploadDialog.show();

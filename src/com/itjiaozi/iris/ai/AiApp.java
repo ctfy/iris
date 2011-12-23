@@ -83,7 +83,7 @@ public class AiApp extends BaseAi {
 	}
 
 	@Override
-	public String[] getKeysForXunFei() {
+	public String[] getXunFeiKeys() {
 		List<String> result = new ArrayList<String>();
 
 		List<String> list = TheApps.getAllAppName();
@@ -94,6 +94,11 @@ public class AiApp extends BaseAi {
 		}
 		result.addAll(list);
 		return result.toArray(new String[1]);
+	}
+
+	@Override
+	public boolean needUpload() {
+		return super.needUpload();
 	}
 
 }
