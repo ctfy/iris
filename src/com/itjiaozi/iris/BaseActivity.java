@@ -23,6 +23,7 @@ import com.iflytek.ui.RecognizerDialogListener;
 import com.iflytek.ui.UploadDialog;
 import com.iflytek.ui.UploadDialogListener;
 import com.itjiaozi.iris.util.AppLog;
+import com.itjiaozi.iris.util.SPUtil;
 
 public class BaseActivity extends ListActivity implements RecognizerDialogListener {
     private Map<EGrammarType, String> grammars = new HashMap<EGrammarType, String>();
@@ -54,7 +55,7 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 
     public void startRecognition(EGrammarType eGrammarType) {
         if (null == iatDialog) {
-            iatDialog = new RecognizerDialog(this, "appid=4ec0b0e9");
+            iatDialog = new RecognizerDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
             iatDialog.getWindow().addFlags(WindowManager.LayoutParams.LAST_APPLICATION_WINDOW);
             iatDialog.getWindow().setBackgroundDrawable(null);
             iatDialog.getWindow().setFlags(0, 0);
@@ -70,15 +71,14 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 
     public void startUploadAppThenStartRecognition(final EGrammarType eGrammarType, String[] keys) {
         try {
-            UploadDialog uploadDialog = new UploadDialog(this, "appid=4ec0b0e9");
+            UploadDialog uploadDialog = new UploadDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
             // uploadDialog.getCurrentFocus().getRootView().setVisibility(View.GONE);
 
-
-//            Window win = uploadDialog.getWindow();
-//            LayoutParams params = new LayoutParams();
-//            params.x = -80;// 设置x坐标
-//            params.y = -60;// 设置y坐标
-//            win.setAttributes(params);
+            // Window win = uploadDialog.getWindow();
+            // LayoutParams params = new LayoutParams();
+            // params.x = -80;// 设置x坐标
+            // params.y = -60;// 设置y坐标
+            // win.setAttributes(params);
 
             uploadDialog.setListener(new UploadDialogListener() {
 
@@ -90,6 +90,7 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
                 @Override
                 public void onDataUploaded(String contentID, String extendID) {
                     grammars.put(eGrammarType, extendID);
+                    SPUtil.put(Constant.SP_KEY_GRAMMAR_ID_CONTACT, extendID);
                     AppLog.d(TAG, String.format("contentID:%s, extendID:%s", contentID, extendID));
                     startRecognition(eGrammarType);
                 }
@@ -102,15 +103,15 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
             AppLog.d(TAG, "上传词条：" + sb);
             uploadDialog.setContent(sb.toString().getBytes("UTF-8"), "dtt=keylist", eGrammarType.getGrammarName());
             uploadDialog.show();
-            
-            
-//            ViewGroup dialogViewGroup = (ViewGroup)uploadDialog.getWindow().getDecorView().getRootView();
-//            View dialogMainView = dialogViewGroup.getChildAt(0);
-//            dialogViewGroup.removeView(dialogMainView);
-//            
-//            ViewGroup vg = (ViewGroup) findViewById(R.id.test);
-//            vg.addView(dialogMainView);
-//            Toast.makeText(this, "shu: " + dialogMainView, 1).show();
+
+            // ViewGroup dialogViewGroup =
+            // (ViewGroup)uploadDialog.getWindow().getDecorView().getRootView();
+            // View dialogMainView = dialogViewGroup.getChildAt(0);
+            // dialogViewGroup.removeView(dialogMainView);
+            //
+            // ViewGroup vg = (ViewGroup) findViewById(R.id.test);
+            // vg.addView(dialogMainView);
+            // Toast.makeText(this, "shu: " + dialogMainView, 1).show();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
