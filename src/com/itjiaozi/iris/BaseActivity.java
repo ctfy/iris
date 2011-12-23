@@ -6,7 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.ListActivity;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
 import com.iflytek.speech.RecognizerResult;
@@ -49,6 +55,9 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
     public void startRecognition(EGrammarType eGrammarType) {
         if (null == iatDialog) {
             iatDialog = new RecognizerDialog(this, "appid=4ec0b0e9");
+            iatDialog.getWindow().addFlags(WindowManager.LayoutParams.LAST_APPLICATION_WINDOW);
+            iatDialog.getWindow().setBackgroundDrawable(null);
+            iatDialog.getWindow().setFlags(0, 0);
             iatDialog.setListener(this);
         }
         String grammarID = grammars.get(eGrammarType);
@@ -56,11 +65,21 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
         iatDialog.setEngine(null, null, grammarID);
         iatDialog.setSampleRate(RATE.rate16k);
         iatDialog.show();
+        iatDialog.getWindow().setFlags(0, 0);
     }
 
     public void startUploadAppThenStartRecognition(final EGrammarType eGrammarType, String[] keys) {
         try {
             UploadDialog uploadDialog = new UploadDialog(this, "appid=4ec0b0e9");
+            // uploadDialog.getCurrentFocus().getRootView().setVisibility(View.GONE);
+
+
+//            Window win = uploadDialog.getWindow();
+//            LayoutParams params = new LayoutParams();
+//            params.x = -80;// 设置x坐标
+//            params.y = -60;// 设置y坐标
+//            win.setAttributes(params);
+
             uploadDialog.setListener(new UploadDialogListener() {
 
                 @Override
@@ -83,6 +102,15 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
             AppLog.d(TAG, "上传词条：" + sb);
             uploadDialog.setContent(sb.toString().getBytes("UTF-8"), "dtt=keylist", eGrammarType.getGrammarName());
             uploadDialog.show();
+            
+            
+//            ViewGroup dialogViewGroup = (ViewGroup)uploadDialog.getWindow().getDecorView().getRootView();
+//            View dialogMainView = dialogViewGroup.getChildAt(0);
+//            dialogViewGroup.removeView(dialogMainView);
+//            
+//            ViewGroup vg = (ViewGroup) findViewById(R.id.test);
+//            vg.addView(dialogMainView);
+//            Toast.makeText(this, "shu: " + dialogMainView, 1).show();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:id="@+id/test"
+        android:layout_width="fill_parent"
+        android:layout_height="140dp" >
+    </LinearLayout>
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
