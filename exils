@@ -1,0 +1,13 @@
+[1mdiff --git a/src/com/itjiaozi/iris/BaseActivity.java b/src/com/itjiaozi/iris/BaseActivity.java[m
+[1mindex d0b01f5..30582e2 100644[m
+[1m--- a/src/com/itjiaozi/iris/BaseActivity.java[m
+[1m+++ b/src/com/itjiaozi/iris/BaseActivity.java[m
+[36m@@ -86,7 +86,7 @@[m [mpublic class BaseActivity extends ListActivity implements RecognizerDialogListen[m
+                 public void onEnd(SpeechError arg0) {[m
+                     AppLog.d(TAG, "上传语法结束，" + arg0);[m
+                 }[m
+[31m-[m
+[32m+[m[41m            [m
+                 @Override[m
+                 public void onDataUploaded(String contentID, String extendID) {[m
+                     grammars.put(eGrammarType, extendID);[m
