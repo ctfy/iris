@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.itjiaozi.iris.db.TbAppCache.Columns;
 import com.itjiaozi.iris.db.easyandroid.EABaseModel;
 import com.itjiaozi.iris.db.easyandroid.EADBField;
 import com.itjiaozi.iris.db.easyandroid.EADBField.EADBFieldMode;
@@ -13,22 +14,20 @@ import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.Pinyin;
 import com.itjiaozi.iris.util.TheObservable;
 
-public class TbAppCache extends EABaseModel {
+public class TbContactCache extends EABaseModel {
     public static TheObservable onChanged = new TheObservable();
 
-    public static final String TB_NAME = TbAppCache.class.getSimpleName();
+    public static final String TB_NAME = TbContactCache.class.getSimpleName();
 
-    private static final String TAG = TbAppCache.class.getSimpleName();
+    private static final String TAG = TbContactCache.class.getSimpleName();
 
     public static class Columns {
         public static final String _id = "_id";
         public static final String BeUsedCount = "BeUsedCount";
         public static final String Name = "Name";
         public static final String PinYin = "PinYin";
-        public static final String PackageName = "PackageName";
-        public static final String VersionName = "VersionName";
-        public static final String VersionCode = "VersionCode";
-        public static final String IconPath = "IconPath";
+        public static final String Number = "Number";
+        public static final String NumberType = "NumberType";
     }
 
     @EADBField(mode = EADBFieldMode.Key)
@@ -40,36 +39,31 @@ public class TbAppCache extends EABaseModel {
     @EADBField
     public String PinYin;
     @EADBField
-    public String PackageName;
+    public String Number;
     @EADBField
-    public String VersionName;
-    @EADBField
-    public int VersionCode;
-    @EADBField
-    public String IconPath;
+    public String NumberType;
 
-    public static long insertOrUpdate(String name, String packageName, String versionName, int versionCode, String iconPath) {
+    public static long insertOrUpdate(String name, String number, String type) {
         long id = -1;
         ContentValues values = new ContentValues();
         values.put(Columns.BeUsedCount, 0);
         values.put(Columns.Name, name);
         values.put(Columns.PinYin, Pinyin.getPingYin(name));
-        values.put(Columns.VersionName, versionName);
-        values.put(Columns.VersionCode, versionCode);
-        values.put(Columns.IconPath, iconPath);
+        values.put(Columns.Number, number);
+        values.put(Columns.NumberType, type);
 
-        String sql = String.format("SELECT * FROM %s WHERE %s=?", TB_NAME, Columns.PackageName);
-        long count = getCount(sql, new String[] { packageName });
+        String sql = String.format("SELECT * FROM %s WHERE %s=?", TB_NAME, Columns.Number);
+        long count = getCount(sql, new String[] { number });
         if (0 == count) {
-            values.put(Columns.PackageName, packageName);
+            values.put(Columns.Number, number);
             id = EADbHelper.getInstance().insert(TB_NAME, null, values);
         } else {
-            id = EADbHelper.getInstance().update(TB_NAME, values, Columns.PackageName + "=?", new String[] { packageName });
+            id = EADbHelper.getInstance().update(TB_NAME, values, Columns.Number + "=?", new String[] { number });
         }
         if (id > -1) {
-            AppLog.d(TAG, "向库中添加程序成功: name" + name + ", package:" + packageName);
+            AppLog.d(TAG, "向库中添加程序成功: name" + name + ", package:" + number);
         } else {
-            AppLog.e(TAG, "向库中添加程序失败: name" + name + ", package:" + packageName);
+            AppLog.e(TAG, "向库中添加程序失败: name" + name + ", package:" + number);
         }
         return id;
     }
@@ -90,21 +84,21 @@ public class TbAppCache extends EABaseModel {
         return count;
     }
 
-    public static List<TbAppCache> queryLikeAppByName(String name) {
+    public static List<TbContactCache> queryLikeContactByName(String name) {
         String appNamePinyin = Pinyin.getPingYin(name);
         AppLog.d(TAG, String.format("查找应用:%s, \t拼音:%s", name, appNamePinyin));
-        List<TbAppCache> result = new ArrayList<TbAppCache>();
+        List<TbContactCache> result = new ArrayList<TbContactCache>();
         Cursor c = null;
         try {
             c = EADbHelper.getInstance().query(TB_NAME, null, Columns.PinYin + "=?", new String[] { appNamePinyin }, null, null, Columns.BeUsedCount + " DESC");
             for (c.moveToFirst(); c.isLast(); c.moveToNext()) {
-                TbAppCache tmp = new TbAppCache();
+                TbContactCache tmp = new TbContactCache();
                 tmp._id = c.getLong(c.getColumnIndex(Columns._id));
                 tmp.BeUsedCount = c.getInt(c.getColumnIndex(Columns.BeUsedCount));
-                tmp.IconPath = c.getString(c.getColumnIndex(Columns.IconPath));
                 tmp.Name = c.getString(c.getColumnIndex(Columns.Name));
-                tmp.PackageName = c.getString(c.getColumnIndex(Columns.PackageName));
                 tmp.PinYin = c.getString(c.getColumnIndex(Columns.PinYin));
+                tmp.Number = c.getString(c.getColumnIndex(Columns.Number));
+                tmp.NumberType = c.getString(c.getColumnIndex(Columns.NumberType));
                 result.add(tmp);
             }
         } finally {
@@ -118,12 +112,12 @@ public class TbAppCache extends EABaseModel {
         return result;
     }
 
-    public static int deletePackage(String packageName) {
-        int len = EADbHelper.getInstance().delete(TB_NAME, Columns.PackageName + "=?", new String[] { packageName });
+    public static int deleteContact(String number) {
+        int len = EADbHelper.getInstance().delete(TB_NAME, Columns.Number + "=?", new String[] { number });
         if (0 == len) {
-            AppLog.e(TAG, "删除成失败, 从数据库中清除包:" + packageName);
+            AppLog.e(TAG, "删除成失败, 号码：:" + number);
         } else {
-            AppLog.d(TAG, "删除成功, 从数据库中清除包:" + packageName);
+            AppLog.d(TAG, "删除成功, 号码：" + number);
         }
         return len;
     }

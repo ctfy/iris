@@ -26,7 +26,7 @@ public class TheApplication extends Application {
 
     private void init() {
         // 设置讯飞应用ID
-        SPUtil.put(Constant.SP_KEY_XUNFEI_APP_ID, "4ec0b0e9");
+        SPUtil.put(Constant.SP_KEY_XUNFEI_APP_ID, "4ead074b");
     }
 
     java.lang.Thread.UncaughtExceptionHandler appUncaughtExceptionHandler = new java.lang.Thread.UncaughtExceptionHandler() {

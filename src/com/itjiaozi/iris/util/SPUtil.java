@@ -35,6 +35,7 @@ public class SPUtil {
     }
 
     public static String getString(String key, String defValue) {
-        return TheApplication.getInstance().getSharedPreferences(SPUtil.class.getSimpleName(), Context.MODE_PRIVATE).getString(key, defValue);
+        String str = TheApplication.getInstance().getSharedPreferences(SPUtil.class.getSimpleName(), Context.MODE_PRIVATE).getString(key, defValue);
+        return str;
     }
 }

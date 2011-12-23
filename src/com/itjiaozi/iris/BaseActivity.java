@@ -14,9 +14,6 @@ import com.iflytek.ui.RecognizerDialog;
 import com.iflytek.ui.RecognizerDialogListener;
 import com.iflytek.ui.UploadDialog;
 import com.iflytek.ui.UploadDialogListener;
-import com.itjiaozi.iris.about.EAboutType;
-import com.itjiaozi.iris.ai.AiManager;
-import com.itjiaozi.iris.ai.EAiType;
 import com.itjiaozi.iris.ai.IAiCallback;
 import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.ToastUtil;
@@ -45,16 +42,11 @@ public class BaseActivity extends ListActivity implements RecognizerDialogListen
 		uploadDialog = new UploadDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
 	}
 
-	public void startRecognition(EAiType eAiType) {
-		IAiCallback iAiCallback = AiManager.getInstance().getAiCallback(eAiType);
-		startRecognition(iAiCallback);
-	}
-
 	public void startRecognition(IAiCallback iAiCallback) {
 		if (iAiCallback.needUpload()) {
 			startUpload(iAiCallback);
 		} else {
-			iatDialog.setEngine(null, null, iAiCallback.getXunFeiGrammarID());
+			iatDialog.setEngine("sms", null, iAiCallback.getXunFeiGrammarID());
 			iatDialog.show();
 		}
 	}
