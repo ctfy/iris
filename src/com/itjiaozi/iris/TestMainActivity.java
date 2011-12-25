@@ -21,7 +21,9 @@ public class TestMainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		putData("打开计算器");
+        putData("打开计算器");
+        putData("打开LV");
+        putData("打开乐秀");
 		putData("计算器");
 		putData("语音秘书");
 		putData("一");

@@ -15,6 +15,7 @@ import com.itjiaozi.iris.TheApplication;
 import com.itjiaozi.iris.db.EADbHelper;
 import com.itjiaozi.iris.db.TbAppCache;
 import com.itjiaozi.iris.util.AppLog;
+import com.itjiaozi.iris.util.SPUtil;
 
 public class TheApps extends BaseTheAbout {
 
@@ -83,6 +84,8 @@ public class TheApps extends BaseTheAbout {
         Drawable drawable = packageInfo.applicationInfo.loadIcon(TheApplication.getInstance().getPackageManager());
 
         TbAppCache.insertOrUpdate(name, packageName, versionName, versionCode, "");
+
+        autoAddVersion();
     }
 
     public static List<TbAppCache> query(String str) {
@@ -91,9 +94,24 @@ public class TheApps extends BaseTheAbout {
 
     public static void deletePackage(String packageName) {
         TbAppCache.deletePackage(packageName);
+
+        autoAddVersion();
     }
 
     public static List<String> getAllAppName() {
         return TbAppCache.queryAppNames();
+    }
+
+    public static void autoAddVersion() {
+        int version = getVersion();
+        version += 1;
+        AppLog.d(TAG, "应用程序数据缓存版本已经升级至：" + version);
+        SPUtil.put(TheApps.class.getName() + "_version", version);
+    }
+
+    public static int getVersion() {
+        int version = SPUtil.getInt(TheApps.class.getName() + "_version", 0);
+        AppLog.d(TAG, "当前应用程序缓存数据版本：" + version);
+        return version;
     }
 }

@@ -6,12 +6,13 @@ import java.util.Observer;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.iflytek.speech.SpeechConfig.RATE;
+import com.iflytek.ui.RecognizerDialog;
 import com.itjiaozi.iris.ai.AiApp;
 import com.itjiaozi.iris.ai.AiManager;
 import com.itjiaozi.iris.ai.IAiCallback;
@@ -83,8 +84,10 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
         int id = v.getId();
         switch (id) {
         case R.id.btn_speak:
-            IAiCallback iAiCallback = AiManager.getInstance().getAiCallback(AiApp.class);
-            startRecognition(iAiCallback);
+             IAiCallback iAiCallback =
+             AiManager.getInstance().getAiCallback(AiApp.class);
+             startRecognition(iAiCallback);
+//            showIatDialog();
             break;
         case R.id.btn_select_cmd:
             startActivityForResult(new Intent(this, TestMainActivity.class), 2);
@@ -112,4 +115,13 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
         String act = null == data ? "" : data.getAction();
         onRecognition(act);
     }
+
+    public void showIatDialog() {
+        RecognizerDialog iatDialog = new RecognizerDialog(this, "appid=4ead074b");
+        iatDialog.setListener(this);
+        iatDialog.setEngine("sms", null, null);
+        iatDialog.setSampleRate(RATE.rate16k);
+        iatDialog.show();
+    }
+
 }

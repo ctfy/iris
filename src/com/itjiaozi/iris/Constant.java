@@ -10,4 +10,6 @@ public class Constant {
     public static final String SP_ANDROID_DEVICE_ID = "SP_ANDROID_DEVICE_ID";
 
     public static final String SP_KEY_HAS_SYNC_CONTACT_CACHE = "SP_KEY_HAS_SYNC_CONTACT_CACHE";
+
+    public static final String SP_KEY_NEED_UPLOAD_APP_KEYWORDS = "SP_KEY_NEED_UPLOAD_APP_KEYWORDS";
 }

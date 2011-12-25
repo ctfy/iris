@@ -97,7 +97,7 @@ public class TbAppCache extends EABaseModel {
         Cursor c = null;
         try {
             c = EADbHelper.getInstance().query(TB_NAME, null, Columns.PinYin + "=?", new String[] { appNamePinyin }, null, null, Columns.BeUsedCount + " DESC");
-            for (c.moveToFirst(); c.isAfterLast(); c.moveToNext()) {
+            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
                 TbAppCache tmp = new TbAppCache();
                 tmp._id = c.getLong(c.getColumnIndex(Columns._id));
                 tmp.BeUsedCount = c.getInt(c.getColumnIndex(Columns.BeUsedCount));

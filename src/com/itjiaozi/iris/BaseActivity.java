@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.iflytek.speech.RecognizerResult;
@@ -20,90 +22,103 @@ import com.itjiaozi.iris.util.ToastUtil;
 
 public class BaseActivity extends ListActivity implements RecognizerDialogListener {
 
-	protected static final String TAG = BaseActivity.class.getSimpleName();
+    protected static final String TAG = BaseActivity.class.getSimpleName();
 
-	private RecognizerDialog iatDialog;
-	private UploadDialog uploadDialog;
+    private RecognizerDialog iatDialog;
+    private UploadDialog uploadDialog;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
-		initDialog();
-	}
+        initDialog();
+    }
 
-	private void initDialog() {
-		iatDialog = new RecognizerDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
-		iatDialog.setListener(this);
-		iatDialog.setSampleRate(RATE.rate16k);
+    private void initDialog() {
+        iatDialog = new RecognizerDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
+        iatDialog.setListener(this);
 
-		uploadDialog = new UploadDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
-	}
+        uploadDialog = new UploadDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
+    }
 
-	public void startRecognition(IAiCallback iAiCallback) {
-		if (iAiCallback.needUpload()) {
-			startUpload(iAiCallback);
-		} else {
-			iatDialog.setEngine("sms", null, iAiCallback.getXunFeiGrammarID());
-			iatDialog.show();
-		}
-	}
+    public void startRecognition(IAiCallback iAiCallback) {
+        if (iAiCallback.needUpload()) {
+            startUpload(iAiCallback);
+        } else {
+            iatDialog.setSampleRate(RATE.rate16k);
+            String grammarID = iAiCallback.getXunFeiGrammarID();
+            String engine = null == grammarID || "".equals(grammarID) ? "sms" : null;
+            iatDialog.setEngine(engine, null, iAiCallback.getXunFeiGrammarID());
+            // iatDialog.setEngine("sms", null, null);
+            iatDialog.show();
+        }
+    }
 
-	private void startUpload(final IAiCallback iAiCallback) {
-		String[] keys = iAiCallback.getXunFeiKeys();
-		StringBuilder sb = new StringBuilder();
-		if (null != keys) {
-			for (String t : keys) {
-				sb.append(t).append(',');
-			}
-		}
-		sb.delete(sb.length() - 1, sb.length());
-		try {
-			uploadDialog.setContent(sb.toString().getBytes("UTF-8"), "dtt=keylist", iAiCallback.getXunFeiGrammarName());
-			uploadDialog.setListener(new UploadDialogListener() {
+    private void startUpload(final IAiCallback iAiCallback) {
+        String[] keys = iAiCallback.getXunFeiKeys();
+        StringBuilder sb = new StringBuilder();
+        if (null != keys) {
+            for (String t : keys) {
+                sb.append(t).append(',');
+            }
+        }
+        sb.delete(sb.length() - 1, sb.length());
+        try {
+            uploadDialog.setContent(sb.toString().getBytes("UTF-8"), "dtt=keylist", iAiCallback.getXunFeiGrammarName());
+            uploadDialog.setListener(new UploadDialogListener() {
 
-				@Override
-				public void onEnd(SpeechError error) {
-					ToastUtil.showToast("数据上传错误: " + error);
-				}
+                @Override
+                public void onEnd(SpeechError error) {
+                    ToastUtil.showToast("数据上传错误: " + error);
+                }
 
-				@Override
-				public void onDataUploaded(String contentID, String extendID) {
-					iAiCallback.storeGrammarID(extendID);
-					startRecognition(iAiCallback);
-				}
-			});
-			uploadDialog.show();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+                @Override
+                public void onDataUploaded(String contentID, String extendID) {
+                    iAiCallback.storeGrammarID(extendID);
+                    startRecognition(iAiCallback);
 
-	public void onRecognition(String str) {
+                    Handler h = new Handler(Looper.getMainLooper());
+                    h.post(new Runnable() {
 
-	}
+                        @Override
+                        public void run() {
+                            iAiCallback.uploadSuccess();
+                        }
+                    });
+                }
+            });
+            uploadDialog.show();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void onEnd(SpeechError error) {
-		ToastUtil.showToast("识别错误: " + error);
-	}
+    public void onRecognition(String str) {
 
-	private StringBuilder tmp = new StringBuilder();
+    }
 
-	@Override
-	public void onResults(ArrayList<RecognizerResult> results, boolean isLast) {
-		if (null != results && results.size() > 0) {
-			RecognizerResult rr = results.get(0);
-			tmp.append(rr.text);
-			if (isLast) {
-				String callbackStr = tmp.toString();
-				callbackStr = callbackStr.replace("。", "");
-				Toast.makeText(this, callbackStr, 1).show();
-				onRecognition(callbackStr);
-				tmp = new StringBuilder();
-			}
-		}
-	}
+    @Override
+    public void onEnd(SpeechError error) {
+        if (null != error)
+            ToastUtil.showToast("识别错误: " + error);
+    }
+
+    private StringBuilder tmp = new StringBuilder();
+
+    @Override
+    public void onResults(ArrayList<RecognizerResult> results, boolean isLast) {
+        if (null != results && results.size() > 0) {
+            RecognizerResult rr = results.get(0);
+            tmp.append(rr.text);
+            if (isLast) {
+                String callbackStr = tmp.toString();
+                callbackStr = callbackStr.replace("。", "");
+                Toast.makeText(this, callbackStr, 1).show();
+                onRecognition(callbackStr);
+                tmp = new StringBuilder();
+            }
+        }
+    }
 }

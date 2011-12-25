@@ -19,5 +19,8 @@ public interface IAiCallback {
 
 	boolean needUpload();
 
+	void uploadSuccess();
+
 	void storeGrammarID(String grammarID);
+
 }
