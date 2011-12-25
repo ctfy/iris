@@ -38,4 +38,8 @@ public class SPUtil {
         String str = TheApplication.getInstance().getSharedPreferences(SPUtil.class.getSimpleName(), Context.MODE_PRIVATE).getString(key, defValue);
         return str;
     }
+
+    public static boolean contains(String key) {
+        return TheApplication.getInstance().getSharedPreferences(SPUtil.class.getSimpleName(), Context.MODE_PRIVATE).contains(key);
+    }
 }

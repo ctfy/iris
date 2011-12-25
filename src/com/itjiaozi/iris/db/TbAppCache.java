@@ -97,7 +97,7 @@ public class TbAppCache extends EABaseModel {
         Cursor c = null;
         try {
             c = EADbHelper.getInstance().query(TB_NAME, null, Columns.PinYin + "=?", new String[] { appNamePinyin }, null, null, Columns.BeUsedCount + " DESC");
-            for (c.moveToFirst(); c.isLast(); c.moveToNext()) {
+            for (c.moveToFirst(); c.isAfterLast(); c.moveToNext()) {
                 TbAppCache tmp = new TbAppCache();
                 tmp._id = c.getLong(c.getColumnIndex(Columns._id));
                 tmp.BeUsedCount = c.getInt(c.getColumnIndex(Columns.BeUsedCount));
@@ -133,7 +133,7 @@ public class TbAppCache extends EABaseModel {
         Cursor c = null;
         try {
             c = EADbHelper.getInstance().query(TB_NAME, null, null, null, null, null, null);
-            for (c.moveToFirst(); !c.isLast(); c.moveToNext()) {
+            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
                 String appName = c.getString(c.getColumnIndex(Columns.Name));
                 list.add(appName);
             }

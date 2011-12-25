@@ -1,9 +1,11 @@
 package com.itjiaozi.iris;
 
 import com.itjiaozi.iris.db.EADbHelper;
+import com.itjiaozi.iris.service.TheService;
 import com.itjiaozi.iris.util.SPUtil;
 
 import android.app.Application;
+import android.content.Intent;
 
 public class TheApplication extends Application {
     private static final String TAG = TheApplication.class.getSimpleName();
@@ -27,6 +29,9 @@ public class TheApplication extends Application {
     private void init() {
         // 设置讯飞应用ID
         SPUtil.put(Constant.SP_KEY_XUNFEI_APP_ID, "4ead074b");
+
+        Intent service = new Intent(this, TheService.class);
+        startService(service);
     }
 
     java.lang.Thread.UncaughtExceptionHandler appUncaughtExceptionHandler = new java.lang.Thread.UncaughtExceptionHandler() {
