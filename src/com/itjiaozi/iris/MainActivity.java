@@ -26,23 +26,12 @@ import com.itjiaozi.iris.util.ToastUtil;
 
 public class MainActivity extends Activity {
 
-    Gallery mGallery;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.itjiaozi_the_main);
-        mGallery = (Gallery) findViewById(R.id.Gallery1);
 
-        List<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
-
-        for (int i = 0; i < 4; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("key", "hello" + i);
-            data.add(map);
-        }
-        SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_list_item_1, new String[] { "key" }, new int[] { android.R.id.text1 });
-        mGallery.setAdapter(adapter);
     }
 
     public void onClick(View v) {

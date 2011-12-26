@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/car_logo_sms"
+    android:scaleGravity="center"
+    android:scaleHeight="100dp"
+    android:scaleWidth="100dp" >
+
+</scale>

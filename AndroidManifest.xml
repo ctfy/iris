@@ -55,9 +55,13 @@
         android:name="TheApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <service android:name=".service.TheService">
-        </service><activity
+        <service android:name=".service.TheService" >
+        </service>
+
+        <activity
             android:name=".MainActivity"
+            
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,8 +88,6 @@
                 <!-- 注意！！ 这句必须要加，否则接收不到BroadCast -->
             </intent-filter>
         </receiver>
-
-        
     </application>
 
 </manifest>
