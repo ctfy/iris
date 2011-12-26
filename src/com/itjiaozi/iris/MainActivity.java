@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
     public void startListenr(final ETheAiType eTheAiType) {
         final BaseTheAi bta = TheAiManager.getInstance().getTheAi(eTheAiType);
 
-        if (bta.needUploadKeys()) {
+        if (bta.getIsNeedUploadKeys()) {
             UploadDialog uploadDialog = new UploadDialog(this, "appid=" + SPUtil.getString(Constant.SP_KEY_XUNFEI_APP_ID, null));
             uploadDialog.setListener(new UploadDialogListener() {
 
@@ -42,8 +42,8 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void onDataUploaded(String arg0, String grammarID) {
-                    bta.storeGrammarID(grammarID);
-                    bta.setNeedUploadKeys(false);
+                    bta.setGrammarID(grammarID);
+                    bta.setIsNeedUploadKeys(false);
                     startListenr(eTheAiType);
                 }
             });

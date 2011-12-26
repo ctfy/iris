@@ -6,6 +6,9 @@ public class TheAiManager {
     }
 
     public BaseTheAi getTheAi(ETheAiType eTheAiType) {
+        if (ETheAiType.All == eTheAiType) {
+            
+        }
         return null;
     }
 }

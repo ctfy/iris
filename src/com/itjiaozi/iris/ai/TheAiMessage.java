@@ -6,7 +6,7 @@ import java.util.Observer;
 
 import com.itjiaozi.iris.about.TheContacts;
 
-public class TheAiCall extends BaseTheAi {
+public class TheAiMessage extends BaseTheAi {
 
     @Override
     public void onLoad() {
@@ -31,7 +31,7 @@ public class TheAiCall extends BaseTheAi {
         StringBuilder sb = new StringBuilder();
         List<String> list = TheContacts.getAllContactsName();
         for (String t : list) {
-            sb.append("打电话给" + t + ",");
+            sb.append("发短信给" + t + ",");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();

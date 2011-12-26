@@ -1,44 +1,31 @@
 package com.itjiaozi.iris.ai;
 
+import com.itjiaozi.iris.util.SPUtil;
+
 public abstract class BaseTheAi {
     public abstract void onLoad();
 
     public abstract void onUnLoad();
 
-    public void setPersistence(String key, String value) {
+    public abstract String getKeysString();
 
+    public boolean getIsNeedUploadKeys() {
+        return SPUtil.getBoolean(this.getClass().getName() + "_setNeedUploadKeys", true);
     }
 
-    public String getPersistence(String key) {
-        return null;
-    }
-
-    public boolean needUploadKeys() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public String getKeysString() {
-        return null;
-    }
-
-    public void storeGrammarID(String arg1) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void setNeedUploadKeys(boolean b) {
-        // TODO Auto-generated method stub
-        
+    public void setIsNeedUploadKeys(boolean b) {
+        SPUtil.put(this.getClass().getName() + "_setNeedUploadKeys", b);
     }
 
     public String getGrammarName() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.getClass().getName() + "_grammarName";
+    }
+
+    public void setGrammarID(String grammarID) {
+        SPUtil.put(this.getClass().getName() + "_grammarID", grammarID);
     }
 
     public String getGrammarID() {
-        // TODO Auto-generated method stub
-        return null;
+        return SPUtil.getString(this.getClass().getName() + "_grammarID", null);
     }
 }
