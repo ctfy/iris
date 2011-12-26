@@ -35,7 +35,7 @@ public class TbContactCache extends EABaseModel {
     @EADBField
     public String FullName;
     @EADBField
-    public String Pinyin;
+    public String PinYin;
     @EADBField
     public String Number;
 
@@ -44,7 +44,7 @@ public class TbContactCache extends EABaseModel {
         ContentValues values = new ContentValues();
         values.put(Columns.BeUsedCount, cc.BeUsedCount);
         values.put(Columns.FullName, cc.FullName);
-        values.put(Columns.PinYin, cc.Pinyin);
+        values.put(Columns.PinYin, cc.PinYin);
 
         String sql = String.format("SELECT count(*) FROM %s WHERE %s=?", TB_NAME, Columns.Number);
         long count = getCount(sql, new String[] { cc.Number });
@@ -90,6 +90,7 @@ public class TbContactCache extends EABaseModel {
     }
 
     public static List<TbContactCache> queryContacts(String fullname) {
+        fullname += "";
         List<TbContactCache> list = new ArrayList<TbContactCache>();
         Cursor c = null;
         try {
@@ -100,9 +101,12 @@ public class TbContactCache extends EABaseModel {
                 cc.BeUsedCount = c.getInt(c.getColumnIndex(Columns.BeUsedCount));
                 cc.FullName = c.getString(c.getColumnIndex(Columns.FullName));
                 cc.Number = c.getString(c.getColumnIndex(Columns.Number));
-                cc.Pinyin = c.getString(c.getColumnIndex(Columns.PinYin));
+                int ind = c.getColumnIndex(Columns.PinYin);
+                cc.PinYin = c.getString(c.getColumnIndex(Columns.PinYin));
                 list.add(cc);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             if (null != c) {
                 c.close();

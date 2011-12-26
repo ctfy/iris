@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.iflytek.speech.SpeechConfig.RATE;
 import com.iflytek.ui.RecognizerDialog;
 import com.itjiaozi.iris.ai.AiApp;
+import com.itjiaozi.iris.ai.AiCall;
 import com.itjiaozi.iris.ai.AiManager;
 import com.itjiaozi.iris.ai.IAiCallback;
 import com.itjiaozi.iris.db.TbHistory;
@@ -85,7 +86,7 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
         switch (id) {
         case R.id.btn_speak:
              IAiCallback iAiCallback =
-             AiManager.getInstance().getAiCallback(AiApp.class);
+             AiManager.getInstance().getAiCallback(AiCall.class);
              startRecognition(iAiCallback);
 //            showIatDialog();
             break;
@@ -122,6 +123,12 @@ public class MainActivity extends BaseActivity implements ITalkCallback {
         iatDialog.setEngine("sms", null, null);
         iatDialog.setSampleRate(RATE.rate16k);
         iatDialog.show();
+    }
+    
+    @Override
+    public void onBackPressed() {
+        TbHistory.insert("请说命令", ChatType.TYPE_AI);
+        AiManager.getInstance().openMainTask();
     }
 
 }

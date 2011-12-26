@@ -67,11 +67,11 @@ public class AppLog implements Runnable {
     private static Thread writeThread;
 
     private static void write2file(String msg) {
-        if (null == writeThread) {
-            writeThread = new Thread(new AppLog());
-            writeThread.start();
-        }
-        msgQueue.offer(msg);
+//        if (null == writeThread) {
+//            writeThread = new Thread(new AppLog());
+//            writeThread.start();
+//        }
+//        msgQueue.offer(msg);
     }
 
     @Override

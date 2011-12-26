@@ -67,7 +67,7 @@ public class TheContacts extends BaseTheAbout {
                         TbContactCache cc = new TbContactCache();
                         String strPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)); // 手机号码字段联系人可能不止一个
                         cc.FullName = fullName;
-                        cc.Pinyin = pinyin;
+                        cc.PinYin = pinyin;
                         cc.Number = strPhoneNumber;
                         cc.BeUsedCount = 0;
                         long count = TbContactCache.insertOrUpdateContact(cc);
@@ -75,6 +75,8 @@ public class TheContacts extends BaseTheAbout {
                     }
                     SPUtil.put(Constant.SP_KEY_HAS_SYNC_CONTACT_CACHE, true);
                     AppLog.d(TAG, "同步联系人缓存数据成功");
+                    
+                    autoAddVersion();
                 } finally {
                     if (null != phoneCursor)
                         phoneCursor.close();
@@ -89,7 +91,24 @@ public class TheContacts extends BaseTheAbout {
         }
     }
 
+    public static List<TbContactCache> query(String str) {
+        return TbContactCache.queryContacts(str);
+    }
+
     public static List<String> getAllContactsName() {
         return TbContactCache.queryContactFullNames();
+    }
+
+    public static void autoAddVersion() {
+        int version = getVersion();
+        version += 1;
+        AppLog.d(TAG, "联系人缓存数据版本已经升级至：" + version);
+        SPUtil.put(TheContacts.class.getName() + "_version", version);
+    }
+
+    public static int getVersion() {
+        int version = SPUtil.getInt(TheContacts.class.getName() + "_version", 0);
+        AppLog.d(TAG, "当前联系人缓存数据版本：" + version);
+        return version;
     }
 }
