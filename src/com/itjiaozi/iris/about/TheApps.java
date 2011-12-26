@@ -16,8 +16,11 @@ import com.itjiaozi.iris.db.EADbHelper;
 import com.itjiaozi.iris.db.TbAppCache;
 import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.SPUtil;
+import com.itjiaozi.iris.util.TheObservable;
 
 public class TheApps extends BaseTheAbout {
+    
+    public static TheObservable onChanged = new TheObservable();
 
     protected static final String TAG = TheApps.class.getSimpleName();
 
@@ -86,6 +89,8 @@ public class TheApps extends BaseTheAbout {
         TbAppCache.insertOrUpdate(name, packageName, versionName, versionCode, "");
 
         autoAddVersion();
+        
+        onChanged.notifyObservers(packageName);
     }
 
     public static List<TbAppCache> query(String str) {
@@ -96,6 +101,8 @@ public class TheApps extends BaseTheAbout {
         TbAppCache.deletePackage(packageName);
 
         autoAddVersion();
+        
+        onChanged.notifyObservers(packageName);
     }
 
     public static List<String> getAllAppName() {

@@ -16,9 +16,11 @@ import com.itjiaozi.iris.db.TbAppCache;
 import com.itjiaozi.iris.db.TbContactCache;
 import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.SPUtil;
+import com.itjiaozi.iris.util.TheObservable;
 
 public class TheContacts extends BaseTheAbout {
 
+    public static TheObservable onChanged = new TheObservable();
     protected static final String TAG = TheContacts.class.getSimpleName();
 
     public TheContacts() {
@@ -75,8 +77,9 @@ public class TheContacts extends BaseTheAbout {
                     }
                     SPUtil.put(Constant.SP_KEY_HAS_SYNC_CONTACT_CACHE, true);
                     AppLog.d(TAG, "同步联系人缓存数据成功");
-                    
+
                     autoAddVersion();
+                    onChanged.notifyObservers(packageName);
                 } finally {
                     if (null != phoneCursor)
                         phoneCursor.close();
