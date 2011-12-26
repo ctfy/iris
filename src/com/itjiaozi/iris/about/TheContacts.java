@@ -2,34 +2,22 @@ package com.itjiaozi.iris.about;
 
 import java.util.List;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.provider.ContactsContract;
 
-import com.itjiaozi.iris.Constant;
 import com.itjiaozi.iris.TheApplication;
-import com.itjiaozi.iris.db.TbAppCache;
 import com.itjiaozi.iris.db.TbContactCache;
 import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.TheObservable;
 
-public class TheContacts extends BaseTheAbout {
+public class TheContacts {
 
     public static TheObservable onChanged = new TheObservable();
     protected static final String TAG = TheContacts.class.getSimpleName();
 
     public TheContacts() {
         syncContacts(false);
-    }
-
-    @Override
-    public void filter(String str, String pinyin) {
-        super.filter(str, pinyin);
     }
 
     /**
@@ -41,10 +29,6 @@ public class TheContacts extends BaseTheAbout {
     public static void syncContacts(boolean force) {
         boolean needSync = false;
         if (force) {
-            needSync = true;
-        }
-
-        if (!SPUtil.contains(Constant.SP_KEY_HAS_SYNC_CONTACT_CACHE)) {
             needSync = true;
         }
 
@@ -75,11 +59,10 @@ public class TheContacts extends BaseTheAbout {
                         long count = TbContactCache.insertOrUpdateContact(cc);
                         AppLog.d(TAG, (count > -1 ? "成功>>" : "失败>>") + "同步联系人缓存: " + cc);
                     }
-                    SPUtil.put(Constant.SP_KEY_HAS_SYNC_CONTACT_CACHE, true);
                     AppLog.d(TAG, "同步联系人缓存数据成功");
 
                     autoAddVersion();
-                    onChanged.notifyObservers(packageName);
+                    onChanged.notifyObservers();
                 } finally {
                     if (null != phoneCursor)
                         phoneCursor.close();

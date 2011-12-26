@@ -18,7 +18,7 @@ import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.TheObservable;
 
-public class TheApps extends BaseTheAbout {
+public class TheApps  {
     
     public static TheObservable onChanged = new TheObservable();
 
@@ -28,10 +28,6 @@ public class TheApps extends BaseTheAbout {
         syncApps();
     }
 
-    @Override
-    public void filter(String str, String pinyin) {
-        super.filter(str, pinyin);
-    }
 
     private void syncApps() {
         AsyncTask<Object, String, Object> task = new AsyncTask<Object, String, Object>() {
