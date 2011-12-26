@@ -31,9 +31,12 @@ public class TheAiCall extends BaseTheAi {
         StringBuilder sb = new StringBuilder();
         List<String> list = TheContacts.getAllContactsName();
         for (String t : list) {
+            sb.append(t + ",");
             sb.append("打电话给" + t + ",");
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         return sb.toString();
     };
 

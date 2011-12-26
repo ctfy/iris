@@ -28,7 +28,7 @@ public class TheContacts {
      */
     public static void syncContacts(boolean force) {
         boolean needSync = false;
-        if (force) {
+        if (force || !SPUtil.contains(TheContacts.class.getName() + "_has_init_contact")) {
             needSync = true;
         }
 
@@ -63,6 +63,7 @@ public class TheContacts {
 
                     autoAddVersion();
                     onChanged.notifyObservers();
+                    SPUtil.put(TheContacts.class.getName() + "_has_init_contact", true);
                 } finally {
                     if (null != phoneCursor)
                         phoneCursor.close();

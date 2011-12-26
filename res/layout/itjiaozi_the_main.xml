@@ -2,105 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/itjiaozi_the_main_bg"
     android:orientation="vertical" >
 
-    <TableLayout
-        android:id="@+id/tableLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stretchColumns="0,1" >
+    <ViewAnimator
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+        <include layout="@layout/itjiaozi_the_main_view_animator_child_openapp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/car_trans_black_btn"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
+        <include layout="@layout/itjiaozi_the_main_view_animator_child_message" />
 
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/car_logo_dial" />
+        <include layout="@layout/itjiaozi_the_main_view_animator_child_call" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="call"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp" />
-            </LinearLayout>
+        <include layout="@layout/itjiaozi_the_main_view_animator_child_btns" />
+    </ViewAnimator>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/car_trans_black_btn"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/car_logo_sms" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sms"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp" />
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/car_trans_black_btn"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/car_logo_dial" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="call"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/car_trans_black_btn"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/car_logo_sms" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sms"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp" />
-            </LinearLayout>
-        </TableRow>
-    </TableLayout>
+    <Button
+        android:id="@+id/speekButton"
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/car_tap_speak_back"
+        android:onClick="onClick"
+        android:text="点击并说话"
+        android:textColor="#FFF"
+        android:textSize="18sp" />
 
 </RelativeLayout>

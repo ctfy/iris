@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.itjiaozi.iris.about.TheApps;
 import com.itjiaozi.iris.about.TheContacts;
 
 public class TheAiApp extends BaseTheAi {
@@ -29,9 +30,10 @@ public class TheAiApp extends BaseTheAi {
 
     public String getKeysString() {
         StringBuilder sb = new StringBuilder();
-        List<String> list = TheContacts.getAllContactsName();
+        List<String> list = TheApps.getAllAppName();
         for (String t : list) {
-            sb.append("打电话给" + t + ",");
+            sb.append(t + ",");
+            sb.append("打开" + t + ",");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();

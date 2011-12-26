@@ -25,20 +25,17 @@ import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.ToastUtil;
 
 public class MainActivity extends Activity {
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.itjiaozi_the_main);
-
     }
 
     public void onClick(View v) {
-        startListenr(ETheAiType.All);
+        startRecoginze(ETheAiType.App);
     }
 
-    public void startListenr(final ETheAiType eTheAiType) {
+    public void startRecoginze(final ETheAiType eTheAiType) {
         final BaseTheAi bta = TheAiManager.getInstance().getTheAi(eTheAiType);
 
         if (bta.getIsNeedUploadKeys()) {
@@ -56,7 +53,7 @@ public class MainActivity extends Activity {
                 public void onDataUploaded(String arg0, String grammarID) {
                     bta.setGrammarID(grammarID);
                     bta.setIsNeedUploadKeys(false);
-                    startListenr(eTheAiType);
+                    startRecoginze(eTheAiType);
                 }
             });
             String keys = bta.getKeysString();
@@ -101,14 +98,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    private Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-
-        };
-    };
-
     public void onResult(String str) {
         ToastUtil.showToast(str);
     }
-
 }

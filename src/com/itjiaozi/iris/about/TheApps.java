@@ -18,8 +18,8 @@ import com.itjiaozi.iris.util.AppLog;
 import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.TheObservable;
 
-public class TheApps  {
-    
+public class TheApps {
+
     public static TheObservable onChanged = new TheObservable();
 
     protected static final String TAG = TheApps.class.getSimpleName();
@@ -28,8 +28,7 @@ public class TheApps  {
         syncApps();
     }
 
-
-    private void syncApps() {
+    public static void syncApps() {
         AsyncTask<Object, String, Object> task = new AsyncTask<Object, String, Object>() {
             public final static String HAS_UPDATE_APP_INFO = "HAS_UPDATE_APP_INFO ";
             boolean hasUpdateAppInfo = false;
@@ -85,7 +84,7 @@ public class TheApps  {
         TbAppCache.insertOrUpdate(name, packageName, versionName, versionCode, "");
 
         autoAddVersion();
-        
+
         onChanged.notifyObservers(packageName);
     }
 
@@ -97,7 +96,7 @@ public class TheApps  {
         TbAppCache.deletePackage(packageName);
 
         autoAddVersion();
-        
+
         onChanged.notifyObservers(packageName);
     }
 

@@ -1,5 +1,8 @@
 package com.itjiaozi.iris;
 
+import com.itjiaozi.iris.about.TheApps;
+import com.itjiaozi.iris.about.TheContacts;
+import com.itjiaozi.iris.ai.TheAiManager;
 import com.itjiaozi.iris.db.EADbHelper;
 import com.itjiaozi.iris.service.TheService;
 import com.itjiaozi.iris.util.SPUtil;
@@ -29,6 +32,9 @@ public class TheApplication extends Application {
     private void init() {
         // 设置讯飞应用ID
         SPUtil.put(Constant.SP_KEY_XUNFEI_APP_ID, "4ead074b");
+        TheAiManager.getInstance();
+        TheContacts.syncContacts(false);
+        TheApps.syncApps();
 
         Intent service = new Intent(this, TheService.class);
         startService(service);

@@ -31,7 +31,9 @@ public class TheAiMessage extends BaseTheAi {
         StringBuilder sb = new StringBuilder();
         List<String> list = TheContacts.getAllContactsName();
         for (String t : list) {
+            sb.append(t + ",");
             sb.append("发短信给" + t + ",");
+            sb.append("给" + t + "发短信,");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();

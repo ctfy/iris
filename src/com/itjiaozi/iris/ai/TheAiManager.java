@@ -12,6 +12,10 @@ public class TheAiManager {
         maps.put(ETheAiType.Call, new TheAiCall());
         maps.put(ETheAiType.Message, new TheAiMessage());
         maps.put(ETheAiType.App, new TheAiApp());
+        
+        for (BaseTheAi t : maps.values()) {
+            t.onLoad();
+        }
     }
 
     public static TheAiManager getInstance() {
