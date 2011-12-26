@@ -17,4 +17,28 @@ public abstract class BaseTheAi {
         // TODO Auto-generated method stub
         return false;
     }
+
+    public String getKeysString() {
+        return null;
+    }
+
+    public void storeGrammarID(String arg1) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void setNeedUploadKeys(boolean b) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public String getGrammarName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getGrammarID() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
