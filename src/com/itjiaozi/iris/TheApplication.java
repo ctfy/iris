@@ -21,9 +21,9 @@ public class TheApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler(appUncaughtExceptionHandler);
         INSTANCE = this;
 
-        init();
-
         EADbHelper.getInstance();
+
+        init();
     }
 
     private void init() {

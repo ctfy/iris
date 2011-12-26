@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import com.iflytek.speech.RecognizerResult;
 import com.iflytek.speech.SpeechError;
@@ -23,9 +24,10 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
     }
 
-    private void onClick() {
+    public void onClick(View v) {
         startListenr(ETheAiType.All);
     }
 
@@ -37,7 +39,10 @@ public class MainActivity extends Activity {
             uploadDialog.setListener(new UploadDialogListener() {
 
                 @Override
-                public void onEnd(SpeechError arg0) {
+                public void onEnd(SpeechError error) {
+                    if (null != error) {
+                        ToastUtil.showToast("数据上传错误：" + error);
+                    }
                 }
 
                 @Override
@@ -67,13 +72,16 @@ public class MainActivity extends Activity {
                     }
                     if (isLast) {
                         String ret = sb.toString();
-
+                        onResult(ret);
                         sb = new StringBuilder();
                     }
                 }
 
                 @Override
-                public void onEnd(SpeechError arg0) {
+                public void onEnd(SpeechError error) {
+                    if (null != error) {
+                        ToastUtil.showToast("识别错误：" + error);
+                    }
                 }
             });
             String engine = null;
@@ -82,6 +90,7 @@ public class MainActivity extends Activity {
                 engine = "sms";
             }
             rd.setEngine(engine, null, bta.getGrammarID());
+            rd.show();
         }
     }
 
@@ -90,4 +99,9 @@ public class MainActivity extends Activity {
 
         };
     };
+
+    public void onResult(String str) {
+        ToastUtil.showToast(str);
+    }
+
 }
