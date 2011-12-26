@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Gallery;
 import android.widget.SimpleAdapter;
+import android.widget.ViewAnimator;
 
 import com.iflytek.speech.RecognizerResult;
 import com.iflytek.speech.SpeechError;
@@ -25,14 +26,28 @@ import com.itjiaozi.iris.util.SPUtil;
 import com.itjiaozi.iris.util.ToastUtil;
 
 public class MainActivity extends Activity {
+    ViewAnimator mViewAnimator;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.itjiaozi_the_main);
+
+        mViewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator1);
     }
 
     public void onClick(View v) {
         startRecoginze(ETheAiType.App);
+        mViewAnimator.setDisplayedChild(1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewAnimator.getDisplayedChild() != 0) {
+            mViewAnimator.setDisplayedChild(0);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void startRecoginze(final ETheAiType eTheAiType) {

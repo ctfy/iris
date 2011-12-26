@@ -6,16 +6,19 @@
     android:orientation="vertical" >
 
     <ViewAnimator
+        android:id="@+id/ViewAnimator1"
         android:layout_width="fill_parent"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
         android:layout_height="fill_parent" >
+
+        <include layout="@layout/itjiaozi_the_main_view_animator_child_btns" />
 
         <include layout="@layout/itjiaozi_the_main_view_animator_child_openapp" />
 
         <include layout="@layout/itjiaozi_the_main_view_animator_child_message" />
 
         <include layout="@layout/itjiaozi_the_main_view_animator_child_call" />
-
-        <include layout="@layout/itjiaozi_the_main_view_animator_child_btns" />
     </ViewAnimator>
 
     <Button
